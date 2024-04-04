@@ -3,7 +3,6 @@ from db_helpers.db_handler import DBHandler
 from calendar_handler import CalendarScraperHandler
 
 
-
 def main():
     calendar_scraper = CalendarScraperHandler()
     calendar_list = calendar_scraper.get_calendar_list()
