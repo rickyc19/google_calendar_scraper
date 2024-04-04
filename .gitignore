@@ -1,0 +1,5 @@
+/backend/
+token.json
+credentials.json
+/inspectionProfiles/
+.idea
