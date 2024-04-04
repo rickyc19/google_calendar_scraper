@@ -92,7 +92,13 @@ class CalendarScraperHandler:
                 calendar_list = service.calendarList().list(pageToken=page_token).execute()
                 for calendar_list_entry in calendar_list['items']:
                     if calendar_list_entry['id'] not in PERSONAL_CALENDAR_IDS:
-                        calendars.append(calendar_list_entry)
+                        calendars.append(
+                            {
+                                "host_calendar_id": calendar_list_entry['id'],
+                                "host_name": calendar_list_entry['summary'],
+                                "host_description": calendar_list_entry['description'],
+                            }
+                        )
                 page_token = calendar_list.get('nextPageToken')
                 if not page_token:
                     break
