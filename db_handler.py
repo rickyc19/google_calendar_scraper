@@ -1,4 +1,3 @@
-import datetime
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
@@ -6,8 +5,6 @@ from sqlalchemy.orm import sessionmaker
 from typing import Dict
 from db_schemas import EventHost, CalendarEvent
 from sqlalchemy.dialects.postgresql import insert
-
-print(os.environ.get("DB_PASSWORD"))
 
 
 class DBHandler:
