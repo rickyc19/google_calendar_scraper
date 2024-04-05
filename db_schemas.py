@@ -12,7 +12,7 @@ class EventHost(Base):
     id = Column(Integer(), primary_key=True,  autoincrement=True)
     host_calendar_id = Column(String(100), index=True, unique=True)
     host_name = Column(String(100))
-    host_description = Column(String(300))
+    host_description = Column(String(1000))
     host_website = Column(String(100))
     host_email = Column(String(100))
     events = relationship('CalendarEvent')
