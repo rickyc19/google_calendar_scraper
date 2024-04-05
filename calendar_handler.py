@@ -1,5 +1,6 @@
 import datetime
-import os.path
+import json
+import os
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -8,14 +9,9 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from typing import List, Dict, Union
 
-# If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
-PERSONAL_CALENDAR_IDS = [
-    'addressbook#contacts@group.v.calendar.google.com',
-    'rickycrvt@gmail.com',
-    'en.usa#holiday@group.v.calendar.google.com'
-]
+SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
+PERSONAL_CALENDAR_IDS = os.environ.get("PERSONAL_CALENDAR_IDS")
 
 
 class CalendarScraperHandler:
@@ -51,7 +47,7 @@ class CalendarScraperHandler:
                 .list(
                     calendarId=calendar_id,
                     timeMin=now,
-                    maxResults=2,
+                    maxResults=5,
                     singleEvents=True,
                     orderBy="startTime",
                 )

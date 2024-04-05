@@ -3,7 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
-from typing import List, Dict, Union, Any
+from typing import Dict
 from db_schemas import EventHost, CalendarEvent
 from sqlalchemy.dialects.postgresql import insert
 
@@ -51,17 +51,3 @@ class DBHandler:
             event_host_dict,
             [EventHost.host_calendar_id]
         )
-
-
-now = datetime.datetime.utcnow().isoformat()
-cal_event_dict = {"host_id": "1",
-                  "host_event_id": "2",
-                  "event_name": "Test",
-                  "event_description": "Test",
-                  "event_price": 0,
-                  "event_start_date": now,
-                  "event_end_date": now,
-                  "event_location": "Test"}
-db_handler = DBHandler()
-row_id = db_handler.upsert_calendar_events_table(cal_event_dict)
-print(row_id)

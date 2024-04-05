@@ -1,6 +1,6 @@
-from ai_handler import ai_summarizer
-from db_helpers.db_handler import DBHandler
+from db_handler import DBHandler
 from calendar_handler import CalendarScraperHandler
+from ai_handler import ai_summarizer
 
 
 def main():
@@ -8,7 +8,7 @@ def main():
     calendar_list = calendar_scraper.get_calendar_list()
     calendar_events_dict = {}
     for calendar in calendar_list:
-        calendar_id = calendar["id"]
+        calendar_id = calendar["host_calendar_id"]
         calendar_events = calendar_scraper.get_calendar_events(calendar_id)
         calendar_events_dict[calendar_id] = calendar_events
 
@@ -17,15 +17,13 @@ def main():
     db_handler = DBHandler()
 
     for calendar in calendar_list:
-        host_id = db_handler.insert_event_hosts_table({
-            "host_calendar_id": calendar["id"],
-            "host_name": calendar["summary"]
-        })
-        for event_dict in calendar_events_dict[calendar["id"]]:
+        host_id = db_handler.upsert_event_hosts_table(calendar)
+        print(host_id)
+        for event_dict in calendar_events_dict[calendar["host_calendar_id"]]:
             print(f"Event: {event_dict}")
             event_dict["host_id"] = host_id
             event_dict["event_description"] = ai_summarizer(event_dict["event_description"])
-        db_handler.insert_calendar_events_table(calendar_events_dict[calendar["id"]])
+            db_handler.upsert_calendar_events_table(event_dict)
 
 
 if __name__ == '__main__':
